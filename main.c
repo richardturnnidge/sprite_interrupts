@@ -122,6 +122,9 @@ int main(void) {
    // set hardware sprites
   vdp_set_variable(2,1);
 
+
+  // there is a "prefer hardware sprites" VDP variable which you can set using VDU 23, 0, &F8, &400; 1;.  after setting that, as well as the hardware-sprite test flag, and calling the "reset sprites" API, all sprites will by default be set to be hardware sprites
+
   //draw some background tringles to illustrate alpha channel
   vdp_set_graphics_fg_colour( 0, GREEN );
   vdp_filled_triangle( 0,175 ,200,230 , 260,30 );
@@ -142,7 +145,9 @@ int main(void) {
   vdp_select_sprite(man_sprite_ID);
   vdp_clear_sprite();
   vdp_add_sprite_bitmap(man_bitmap_ID);
+  vdp_set_hardware_sprite();
   vdp_show_sprite();
+
 
   // load bitmaps for animated gem sprite, all in gem.h file
   vdp_select_bitmap(gem_sprite_start_bitmap_ID);
@@ -165,6 +170,7 @@ int main(void) {
   vdp_create_sprite( gem_sprite_ID, gem_sprite_start_bitmap_ID, 6 );
   // plot sprite on screen at x,y position
   vdp_move_sprite_to( 150,110 );
+  vdp_set_hardware_sprite();
   vdp_show_sprite();
 
   // activate the sprites
@@ -193,7 +199,7 @@ int main(void) {
     di();
       vdp_select_sprite(man_sprite_ID);
       vdp_move_sprite_to( x, y );
-      vdp_refresh_sprites();
+      //vdp_refresh_sprites();
     ei();
 
     x += dx;
@@ -231,5 +237,5 @@ int main(void) {
 void animate_sprites(void){   
   vdp_select_sprite(gem_sprite_ID);
   vdp_next_sprite_frame();
-  vdp_refresh_sprites();
+  //vdp_refresh_sprites();
 }
